@@ -472,56 +472,58 @@
             <span class="dot"></span>
             </div> 
 
-        <div class="form-div" id="rsvp">
-            <h2 class="fuente-primaria">RSVP</h2>
-            <h3 class="fuente-secundaria">Por favor confirma tu asistencia</h3>
-            <h3 class="fuente-secundaria">Fernando Valles Rodríguez</h3>
-            <h4 class="fuente-secundaria">1 persona(s)</h4>
+       <div class="form-div" id="rsvp">
+    <h2 class="fuente-primaria">RSVP</h2>
+    <h3 class="fuente-secundaria">Por favor confirma tu asistencia</h3>
+    
+    <h3 class="fuente-secundaria">Fernando Valles Rodríguez</h3>
+    <h4 class="fuente-secundaria">1 persona(s)</h4>
+    
+    <div class="form-invitation" style="display: block;">
+        <form id="confirmationForm">
             
-            <div class="form-invitation" style= "display: none;"> <form id="confirmationForm" action= "/confirmation/saveConfirmation" method="post" enctype="multipart/form-data">
-                    <div class="radiobutton-div">
-                        <input type="radio" id="radiobutton1" name="confirmAssistance" value="1" required="required">
-                        <label for="radiobutton1" class="radiobtn fuente-secundaria borde-color">¡Asistiré!</label>
-                        <input type="radio" id="radiobutton2" name="confirmAssistance" value="0">
-                        <label for="radiobutton2" class="radiobtn fuente-secundaria borde-color">No podré asistir</label>
-                    </div>
-                    <div class="container-error">
-                        <span class="msg_error fuente-secundaria" style="display: none;">Por favor selecciona una respuesta.</span>
-                    </div>
-                    <input name="hashId" value="CC8CFD90-2AE1-4413-84D0-EC04C708DCCF" hidden/>
-                    <div class="selection-div">
-                        <p class="fuente-secundaria">Número de personas que van a asistir</p>
-                        <select name="numberPasses" class="select-persons borde-color">
-                            <option class="fuente-secundaria" selected value = "1">1</option>
-                        </select>
-                    </div>
-
-                    <div class="textarea-div">
-                        <p class="fuente-secundaria">Dedícales un mensaje de felicitación</p>
-                        <textarea name="message" class="fuente-secundaria borde-color" style="width:70vw;"></textarea>
-                    </div>
-                    <div>
-                        <button type="button" class="send_response fuente-secundaria btn-personalizado" onclick="enviarWhatsapp()">Enviar Respuesta</button>
-                    </div>
-                </form>
-            </div>
-            <div>
-                <div id="attend-response" class="response-send" style="display:none">
-                    <span class="success">Respuesta Enviada</span> 
-                    <div class="attend"><span>¡Asistiré!</span></div>
-                    <br>
-                    <div><button class="editar-reponse fuente-secundaria btn-personalizado" type="button">Editar Respuesta</span></div>
-                    <br>
-                    <div><a class="download-qr fuente-secundaria btn-personalizado" target="_blank" href="#">Descargar pase con código QR</a></div>
-                </div>
+            <div class="radiobutton-div">
+                <input type="radio" id="radiobutton1" name="confirmAssistance" value="1">
+                <label for="radiobutton1" class="radiobtn fuente-secundaria borde-color">¡Asistiré!</label>
                 
-                <div id="noAttend-response" class="response-send" style="display: block">
-                    <span class="success">Respuesta Enviada</span> 
-                    <div class="attend"><span>No podré asistir</span></div>
-                </div>
+                <input type="radio" id="radiobutton2" name="confirmAssistance" value="0">
+                <label for="radiobutton2" class="radiobtn fuente-secundaria borde-color">No podré asistir</label>
             </div>
-            <hr>
+
+            <div class="selection-div">
+                <p class="fuente-secundaria">Número de personas que van a asistir</p>
+                <select name="numberPasses" class="select-persons borde-color">
+                    <option class="fuente-secundaria" value="1" selected>1</option>
+                    <option class="fuente-secundaria" value="2">2</option>
+                    <option class="fuente-secundaria" value="3">3</option>
+                    <option class="fuente-secundaria" value="4">4</option>
+                    </select>
+            </div>
+
+            <div class="textarea-div">
+                <p class="fuente-secundaria">Dedícales un mensaje de felicitación</p>
+                <textarea name="message" class="fuente-secundaria borde-color" style="width:70vw; height:100px;"></textarea>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="button" class="send_response fuente-secundaria btn-personalizado" onclick="enviarWhatsapp()">Enviar Respuesta</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <div id="attend-response" class="response-send" style="display:none">
+            <span class="success">Respuesta Enviada</span> 
+            <div class="attend"><span>¡Asistiré!</span></div>
         </div>
+        
+        <div id="noAttend-response" class="response-send" style="display:none">
+            <span class="success">Respuesta Enviada</span> 
+            <div class="attend"><span>No podré asistir</span></div>
+        </div>
+    </div>
+    <hr>
+</div>
         
         <div class="textdiv" style="width: 100%; background-color: white !important">
             <div class="wow animate__animated animate__fadeInUp">
@@ -688,6 +690,7 @@
 </body>
 
 </html>
+
 
 
 
