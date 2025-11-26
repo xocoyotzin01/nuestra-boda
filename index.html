@@ -501,7 +501,7 @@
                         <textarea name="message" class="fuente-secundaria borde-color" style="width:70vw;"></textarea>
                     </div>
                     <div>
-                        <button type="button" class="send_response fuente-secundaria btn-personalizado">Enviar Respuesta</button>
+                        <button type="button" class="send_response fuente-secundaria btn-personalizado" onclick="enviarWhatsapp()">Enviar Respuesta</button>
                     </div>
                 </form>
             </div>
@@ -649,8 +649,45 @@
     <script>
         new WOW().init();
     </script>
+<script>
+    function enviarWhatsapp() {
+        // 1. Tu número de teléfono (Lo puse fijo para que no falle)
+        var telefono = "526145463919"; 
+        
+        // 2. Buscar qué opción seleccionó (Sí o No)
+        // En tu código se llaman "confirmAssistance"
+        var confirmacion = document.querySelector('input[name="confirmAssistance"]:checked');
+        
+        // Si no seleccionó nada, mandamos alerta
+        if (!confirmacion) {
+            alert("Por favor, selecciona si podrás asistir o no.");
+            return;
+        }
+        
+        var textoAsistencia = confirmacion.value === "1" ? "¡Sí asistiré!" : "Lo siento, no podré asistir.";
+
+        // 3. Buscar número de personas
+        // En tu código se llama "numberPasses"
+        var personas = document.querySelector('select[name="numberPasses"]').value;
+
+        // 4. Buscar el mensaje de texto
+        var mensajeInvitado = document.querySelector('textarea[name="message"]').value;
+
+        // 5. Armar el mensaje para WhatsApp (%0A es un salto de línea)
+        var mensajeFinal = "Hola Laura y Erick, quiero confirmar mi asistencia a la boda:%0A%0A" +
+                           "Estado: *" + textoAsistencia + "*%0A" +
+                           "Número de personas: *" + personas + "*%0A" +
+                           "Mensaje: " + mensajeInvitado;
+
+        // 6. Abrir WhatsApp
+        var url = "https://api.whatsapp.com/send?phone=" + telefono + "&text=" + mensajeFinal;
+        window.open(url, '_blank');
+    }
+</script>
+    
 </body>
 
 </html>
+
 
 
