@@ -279,10 +279,10 @@
         <div class="textdiv" id="header" style="background-color: #FFFFFF !important;">
             <div class = "wow animate__animated animate__fadeInUp">
                 <h2 class="fuente-secundaria">INVITADO(A)</h2>
-                <h3 class="fuente-secundaria">
-                    amiga #1                                                               
+                <h3 id="headerNombre" class="fuente-secundaria">
+                    Invitado Especial
                 </h3>
-                <h3 class="fuente-secundaria">
+                <h3 id="headerPases" class="fuente-secundaria">
                     1 persona(s)
                 </h3>
             </div>
@@ -686,34 +686,46 @@
         window.open(url, '_blank');
     }
 </script>
+
+    
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Función para leer los datos del enlace (URL)
         const params = new URLSearchParams(window.location.search);
         const nombre = params.get("nombre");
         const pases = params.get("pases");
 
-        // 1. Si hay un nombre en el enlace, lo ponemos en el título
+        // 1. Actualizar NOMBRE en ambas secciones (Arriba y RSVP)
         if (nombre) {
-            document.getElementById("nombreInvitado").innerText = nombre;
+            // Sección de arriba (Header)
+            const headerNombre = document.getElementById("headerNombre");
+            if (headerNombre) headerNombre.innerText = nombre;
+
+            // Sección de abajo (RSVP)
+            const rsvpNombre = document.getElementById("nombreInvitado");
+            if (rsvpNombre) rsvpNombre.innerText = nombre;
         }
 
-        // 2. Si hay pases, actualizamos el texto y el formulario
+        // 2. Actualizar PASES en ambas secciones
         if (pases) {
-            // Actualiza el subtítulo "X persona(s)"
-            document.getElementById("cantidadPersonas").innerText = pases + " persona(s)";
+            const textoPases = pases + " persona(s)";
+
+            // Sección de arriba (Header)
+            const headerPases = document.getElementById("headerPases");
+            if (headerPases) headerPases.innerText = textoPases;
+
+            // Sección de abajo (RSVP)
+            const rsvpPases = document.getElementById("cantidadPersonas");
+            if (rsvpPases) rsvpPases.innerText = textoPases;
             
-            // TRUCO EXTRA: Actualiza el selector del formulario para limitar los lugares
-            // Así si le das 2 pases, solo podrá seleccionar 1 o 2.
+            // Ajustar el selector del formulario (limitar opciones)
             const select = document.querySelector('select[name="numberPasses"]');
             if (select) {
-                select.innerHTML = ""; // Borra las opciones fijas
+                select.innerHTML = ""; 
                 for (let i = 1; i <= parseInt(pases); i++) {
                     let option = document.createElement("option");
                     option.value = i;
                     option.text = i;
                     option.classList.add("fuente-secundaria");
-                    // Selecciona automáticamente el máximo
                     if (i == parseInt(pases)) option.selected = true;
                     select.appendChild(option);
                 }
@@ -722,11 +734,11 @@
     });
 </script>
 
-
     
 </body>
 
 </html>
+
 
 
 
