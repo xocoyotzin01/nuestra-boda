@@ -476,8 +476,8 @@
     <h2 class="fuente-primaria">RSVP</h2>
     <h3 class="fuente-secundaria">Por favor confirma tu asistencia</h3>
     
-    <h3 class="fuente-secundaria">Fernando Valles Rodríguez</h3>
-    <h4 class="fuente-secundaria">1 persona(s)</h4>
+    <h3 id="nombreInvitado" class="fuente-secundaria">Invitado Especial</h3>
+    <h4 id="cantidadPersonas" class="fuente-secundaria">1 persona(s)</h4>
     
     <div class="form-invitation" style="display: block;">
         <form id="confirmationForm">
@@ -686,10 +686,48 @@
         window.open(url, '_blank');
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Función para leer los datos del enlace (URL)
+        const params = new URLSearchParams(window.location.search);
+        const nombre = params.get("nombre");
+        const pases = params.get("pases");
+
+        // 1. Si hay un nombre en el enlace, lo ponemos en el título
+        if (nombre) {
+            document.getElementById("nombreInvitado").innerText = nombre;
+        }
+
+        // 2. Si hay pases, actualizamos el texto y el formulario
+        if (pases) {
+            // Actualiza el subtítulo "X persona(s)"
+            document.getElementById("cantidadPersonas").innerText = pases + " persona(s)";
+            
+            // TRUCO EXTRA: Actualiza el selector del formulario para limitar los lugares
+            // Así si le das 2 pases, solo podrá seleccionar 1 o 2.
+            const select = document.querySelector('select[name="numberPasses"]');
+            if (select) {
+                select.innerHTML = ""; // Borra las opciones fijas
+                for (let i = 1; i <= parseInt(pases); i++) {
+                    let option = document.createElement("option");
+                    option.value = i;
+                    option.text = i;
+                    option.classList.add("fuente-secundaria");
+                    // Selecciona automáticamente el máximo
+                    if (i == parseInt(pases)) option.selected = true;
+                    select.appendChild(option);
+                }
+            }
+        }
+    });
+</script>
+
+
     
 </body>
 
 </html>
+
 
 
 
