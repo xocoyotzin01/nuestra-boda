@@ -690,42 +690,72 @@
     <script>
         new WOW().init();
     </script>
+
 <script>
-    function enviarWhatsapp() {
-        // 1. Tu número de teléfono (Lo puse fijo para que no falle)
-        var telefono = "525565389577"; 
+    function enviarConfirmacion() {
+        // --- 1. CAPTURA Y VALIDACIÓN DE DATOS ---
         
-        // 2. Buscar qué opción seleccionó (Sí o No)
-        // En tu código se llaman "confirmAssistance"
+        var telefono = "525565389577"; // Tu número de teléfono para WhatsApp
         var confirmacion = document.querySelector('input[name="confirmAssistance"]:checked');
         
-        // Si no seleccionó nada, mandamos alerta
         if (!confirmacion) {
             alert("Por favor, selecciona si podrás asistir o no.");
             return;
         }
         
-        var textoAsistencia = confirmacion.value === "1" ? "¡Sí asistiré!" : "Lo siento, no podré asistir.";
-
-        // 3. Buscar número de personas
-        // En tu código se llama "numberPasses"
+        // Asistencia: Captura el valor y prepara el texto para WhatsApp
+        var estadoAsistencia = confirmacion.value; 
+        var textoAsistencia = estadoAsistencia === "1" ? "¡Sí asistiré! 🎉" : "Lo siento, no podré asistir. 😔";
+        
         var personas = document.querySelector('select[name="numberPasses"]').value;
-
-        // 4. Buscar el mensaje de texto
         var mensajeInvitado = document.querySelector('textarea[name="message"]').value;
+        var nombreInvitado = document.getElementById("headerNombre").innerText || "Invitado Especial"; 
 
-        // 5. Armar el mensaje para WhatsApp (%0A es un salto de línea)
+        // --- 2. ENVÍO SILENCIOSO A GOOGLE SHEETS (TU EXCEL) ---
+        
+        // ** URL DE ENVÍO CORRECTA (formResponse) **
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSekh23NLy4305RqiWrTunIvGUOyZIfpuqpIlvBGi3Q0cdhg5w/formResponse'; 
+        
+        const data = new FormData();
+        
+        // CÓDIGOS DE ENTRADA REALES DE TU FORMULARIO:
+        // entry.671968870 = Asistencia (Radio: 'Si' o 'No')
+        // entry.1751746945 = Número de personas (Texto Corto)
+        // entry.2143102118 = Mensaje (Párrafo)
+        
+        // (Nota: Si quieres capturar el nombre, debes asegurarte de que exista un campo de nombre en tu Google Form y reemplazar NOMBRE_CODE)
+        // data.append('entry.NOMBRE_CODE', nombreInvitado); 
+        data.append('entry.671968870', estadoAsistencia === "1" ? "Si" : "No"); // Valor que espera Google Forms
+        data.append('entry.1751746945', personas);                           
+        data.append('entry.2143102118', mensajeInvitado);                      
+
+        // Esta solicitud se envía en segundo plano.
+        fetch(GOOGLE_FORM_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            body: data
+        }).then(() => {
+            console.log("Datos enviados a Google Sheets.");
+        }).catch(error => {
+            console.warn('Advertencia: El envío a Google Sheets puede generar una advertencia de CORS, pero la data debería estar guardada.');
+        });
+
+        // --- 3. ABRIR WHATSAPP ---
+        
         var mensajeFinal = "Hola Laura y Erick, quiero confirmar mi asistencia a la boda:%0A%0A" +
+                           "Nombre: *" + nombreInvitado + "*%0A" + 
                            "Estado: *" + textoAsistencia + "*%0A" +
                            "Número de personas: *" + personas + "*%0A" +
                            "Mensaje: " + mensajeInvitado;
 
-        // 6. Abrir WhatsApp
         var url = "https://api.whatsapp.com/send?phone=" + telefono + "&text=" + mensajeFinal;
-        window.open(url, '_blank');
+        
+        // Abre WhatsApp después de un breve retraso
+        setTimeout(() => {
+            window.open(url, '_blank');
+        }, 500); 
     }
 </script>
-
     
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -777,6 +807,7 @@
 </body>
 
 </html>
+
 
 
 
