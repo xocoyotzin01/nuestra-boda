@@ -126,8 +126,57 @@
         .texto-instruccion { margin-top: 20px; font-size: 1.3rem; font-weight: bold; color: #a9892a; font-family: 'Segoe UI', sans-serif; }
         .img-responsive { width: 50%; max-width: 180px; height: auto; display: block; margin: 0 auto; }
         @media (max-width: 768px) { .imgResponsive img { max-width: 300px; } }
+   
+ /* --- INICIO: Estilos para la Flecha de Desplazamiento (Scroll) --- */
+.scroll-indicator-container {
+    position: absolute;
+    bottom: 30px; /* Distancia desde el fondo */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20; /* Para que se vea sobre la foto */
+    color: rgba(255, 255, 255, 0.9); /* Blanco elegante con transparencia */
+    animation: bounce 2.5s infinite; /* La animación de rebote */
+    cursor: pointer;
+}
+
+.scroll-text {
+    font-family: 'Playfair Display', sans-serif !important;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.5); /* Sombra suave para que se lea bien */
+}
+
+.scroll-icon {
+    font-size: 24px;
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Definición del movimiento de rebote */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-15px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-7px);
+    }
+}
+/* --- FIN: Estilos Scroll --- */   
+
     </style>
 
+
+
+
+
+
+
+    
     <style>
         .fuente-primaria {
             font-family: 'Great Vibes', cursive !important;
@@ -241,6 +290,14 @@
                             <p class="fuente-secundaria" style="color: white !important;">Días</p>
                             <div class="days fuente-contador" style="color: white !important;">00</div>
                         </div>
+
+                        
+                        </div> <div class="scroll-indicator-container wow animate__animated animate__fadeInUp" data-wow-delay="2.5s" onclick="document.getElementById('parents').scrollIntoView({behavior: 'smooth'})">
+                            <p class="scroll-text">Desliza hacia abajo</p>
+                            <i class="fa-solid fa-chevron-down scroll-icon"></i>
+                        </div>
+                    
+ 
                         <div class="clock-div">
                             <p class="fuente-secundaria" style="color: white !important;">Horas</p>
                             <div class="hours fuente-contador" style="color: white !important;">00</div>
@@ -874,6 +931,7 @@
 </body>
 
 </html>
+
 
 
 
