@@ -563,10 +563,32 @@
     </div>
     <hr>
 </div>
-        
 
 
         
+
+        
+<div class="textdiv" style="width: 100%; background-color: white !important">
+    <div class="wow animate__animated animate__fadeInUp">
+        <h2 class="fuente-primaria">Utiliza este hashtag en Instagram</h2>
+        
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px;">
+            
+            <h3 id="textoHashtag" class="fuente-secundaria" style="font-size: 40px !important; margin: 0; cursor: pointer;" onclick="copiarHashtag()">
+                #Laura&Xocoyotzin
+            </h3>
+            
+            <button onclick="copiarHashtag()" class="btn" style="background: none; border: none; padding: 0; color: #d4af37;" title="Copiar al portapapeles">
+                <i class="fa-regular fa-copy fa-2x"></i>
+            </button>
+        </div>
+
+        <p id="mensajeCopia" class="fuente-terciaria" style="color: #28a745; font-size: 16px; margin-top: 10px; opacity: 0; transition: opacity 0.3s;">
+            <i class="fa-solid fa-check"></i> ¡Copiado!
+        </p>
+    </div>
+</div>
+      
 <script>
     function copiarHashtag() {
         // 1. Obtener el texto del hashtag
@@ -831,6 +853,7 @@
 </body>
 
 </html>
+
 
 
 
