@@ -564,12 +564,36 @@
     <hr>
 </div>
         
-        <div class="textdiv" style="width: 100%; background-color: white !important">
-            <div class="wow animate__animated animate__fadeInUp">
-                <h2 class="fuente-primaria">Utiliza este hashtag en Instagram</h2>
-                <h3 class="fuente-secundaria">#Laura&Xocoyotzin</h3>
-            </div>
-        </div>
+
+
+        
+<script>
+    function copiarHashtag() {
+        // 1. Obtener el texto del hashtag
+        var hashtag = document.getElementById("textoHashtag").innerText;
+        
+        // 2. Usar la API del portapapeles para copiar
+        navigator.clipboard.writeText(hashtag).then(function() {
+            
+            // 3. Mostrar mensaje de "¡Copiado!" visualmente
+            var mensaje = document.getElementById("mensajeCopia");
+            mensaje.style.opacity = "1";
+            
+            // 4. Ocultar el mensaje después de 2 segundos
+            setTimeout(function() {
+                mensaje.style.opacity = "0";
+            }, 2000);
+            
+        }).catch(function(err) {
+            console.error('Error al copiar: ', err);
+            alert("No se pudo copiar automáticamente. Por favor selecciónalo manualmente.");
+        });
+    }
+</script>
+        
+
+
+        
         
         <div style="text-align:center">
             <div class="wow animate__animated animate__fadeInUp">
@@ -807,6 +831,7 @@
 </body>
 
 </html>
+
 
 
 
