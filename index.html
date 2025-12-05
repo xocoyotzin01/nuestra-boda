@@ -591,9 +591,20 @@
                 <textarea name="message" class="fuente-secundaria borde-color" style="width:70vw; height:100px;"></textarea>
             </div>
 
+            
             <div style="margin-top: 20px;">
                 <button type="button" class="send_response fuente-secundaria btn-personalizado" onclick="enviarConfirmacion()">Enviar Respuesta</button>
             </div>
+            
+            <div id="botonDescargaContainer" style="display:none; margin-top: 20px; text-align: center;">
+                <p class="fuente-secundaria" style="margin-bottom: 10px;">¡Gracias por confirmar! Descarga tu boleto aquí:</p>
+                <a href="boleto.pdf" download="Boleto_Boda_Laura_y_Erick.pdf" class="btn-personalizado fuente-secundaria" style="text-decoration: none; display: inline-block;">
+                    <i class="fa-solid fa-download"></i> Descargar Boleto
+                </a>
+            </div>
+
+
+            
         </form>
     </div>
 
@@ -695,6 +706,9 @@
     <script src="https://mudix.mx/web_invitations/js/popup.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     
+   
+           
+    
     <script>
         $(document).ready(function () {
             // ... (El script de funcionalidad se mantiene igual) ...
@@ -776,11 +790,16 @@
         new WOW().init();
     </script>
 
+
+
+
+
+    
 <script>
     function enviarConfirmacion() {
         // --- 1. CAPTURA Y VALIDACIÓN DE DATOS ---
         
-        var telefono = "525565389577"; // Tu número de teléfono para WhatsApp
+        var telefono = "525565389577"; // Tu número de teléfono
         var confirmacion = document.querySelector('input[name="confirmAssistance"]:checked');
         
         if (!confirmacion) {
@@ -788,7 +807,7 @@
             return;
         }
         
-        // Asistencia: Captura el valor y prepara el texto para WhatsApp
+        // Asistencia: Captura el valor
         var estadoAsistencia = confirmacion.value; 
         var textoAsistencia = estadoAsistencia === "1" ? "¡Sí asistiré! 🎉" : "Lo siento, no podré asistir. 😔";
         
@@ -796,25 +815,26 @@
         var mensajeInvitado = document.querySelector('textarea[name="message"]').value;
         var nombreInvitado = document.getElementById("headerNombre").innerText || "Invitado Especial"; 
 
-        // --- 2. ENVÍO SILENCIOSO A GOOGLE SHEETS (TU EXCEL) ---
+        // --- 2. LOGICA DEL BOTÓN DE DESCARGA ---
+        // Referencia al contenedor del botón
+        var containerBoton = document.getElementById("botonDescargaContainer");
+
+        if (estadoAsistencia === "1") {
+            // Si asiste, mostramos el botón
+            if(containerBoton) containerBoton.style.display = "block";
+        } else {
+            // Si no asiste, nos aseguramos de que esté oculto
+            if(containerBoton) containerBoton.style.display = "none";
+        }
+
+        // --- 3. ENVÍO SILENCIOSO A GOOGLE SHEETS ---
         
-        // ** URL DE ENVÍO CORRECTA (formResponse) **
         const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSekh23NLy4305RqiWrTunIvGUOyZIfpuqpIlvBGi3Q0cdhg5w/formResponse'; 
-        
         const data = new FormData();
-        
-        // CÓDIGOS DE ENTRADA REALES DE TU FORMULARIO:
-        // entry.671968870 = Asistencia (Radio: 'Si' o 'No')
-        // entry.1751746945 = Número de personas (Texto Corto)
-        // entry.2143102118 = Mensaje (Párrafo)
-        
-        // (Nota: Si quieres capturar el nombre, debes asegurarte de que exista un campo de nombre en tu Google Form y reemplazar NOMBRE_CODE)
-        // data.append('entry.NOMBRE_CODE', nombreInvitado); 
-        data.append('entry.671968870', estadoAsistencia === "1" ? "Si" : "No"); // Valor que espera Google Forms
-        data.append('entry.1751746945', personas);                           
+        data.append('entry.671968870', estadoAsistencia === "1" ? "Si" : "No"); 
+        data.append('entry.1751746945', personas);                            
         data.append('entry.2143102118', mensajeInvitado);                      
 
-        // Esta solicitud se envía en segundo plano.
         fetch(GOOGLE_FORM_URL, {
             method: 'POST',
             mode: 'no-cors', 
@@ -822,10 +842,10 @@
         }).then(() => {
             console.log("Datos enviados a Google Sheets.");
         }).catch(error => {
-            console.warn('Advertencia: El envío a Google Sheets puede generar una advertencia de CORS, pero la data debería estar guardada.');
+            console.warn('Error envio Google Sheets');
         });
 
-        // --- 3. ABRIR WHATSAPP ---
+        // --- 4. ABRIR WHATSAPP ---
         
         var mensajeFinal = "Hola Laura y Erick, quiero confirmar mi asistencia a la boda:%0A%0A" +
                            "Nombre: *" + nombreInvitado + "*%0A" + 
@@ -838,9 +858,12 @@
         // Abre WhatsApp después de un breve retraso
         setTimeout(() => {
             window.open(url, '_blank');
-        }, 500); 
+        }, 800); 
     }
 </script>
+
+
+           
     
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -921,6 +944,7 @@
 </body>
 
 </html>
+
 
 
 
